@@ -1,0 +1,216 @@
+<div class="card">
+    <div class="card-header text-white bg-info" align="center">
+        <strong>S'enregistrer </strong>
+    </div>
+    <div class="card-body">
+        <form novalidate (ngSubmit)="saveData()" [formGroup]="registreFormReactif">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="Nom">Nom :</label>
+                    <input type="text" class="form-control" placeholder="Nom" id="Nom" formControlName="lastName"
+                        [ngClass]="{'is-invalid': registreFormReactif.get('lastName')?.touched && registreFormReactif.get('lastName')?.invalid}">
+
+                    <div class="invalid-feedback">
+                        <span *ngIf="registreFormReactif.get('lastName')?.errors?.['required']">
+                            Entrez votre Nom
+                        </span>
+                        <span *ngIf="registreFormReactif.get('lastName')?.errors?.['minlength']">
+                            Entrez au minimum 4 charactere
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="Prenom">Prenom :</label>
+                    <input type="text" class="form-control" placeholder="prenom" id="Prenom" formControlName="firstName"
+                        [ngClass]="{'is-invalid': registreFormReactif.get('firstName')?.touched && !registreFormReactif.get('firstName')?.valid}">
+
+                    <div class="invalid-feedback">
+                        <span *ngIf="registreFormReactif.get('firstName')?.errors?.['required']">
+                            Entrez votre prenom
+                        </span>
+                        <span *ngIf="registreFormReactif.get('firstName')?.errors?.['maxlength']">
+                            Entrez au maximaum 20 charactere
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="email">Email :</label>
+                    <!--<input type="email" class="form-control" placeholder="Email" id="email" formControlName="email"
+                        [ngClass]="{'is-invalid': 
+                        (registreFormReactif.get('email')?.touched && 
+                        !registreFormReactif.get('email')?.valid)}">-->
+                    <input type="email" class="form-control" placeholder="Email" id="email" formControlName="email"
+                        [ngClass]="{'is-invalid': errorMsg}">
+                    <div class="invalid-feedback">
+                        <!-- <span *ngIf="registreFormReactif.get('email')?.errors?.['required']">
+                            Entrez votre Email
+                        </span>
+                        <span *ngIf="registreFormReactif.get('email')?.errors?.['email']">
+                            Email Invalid
+                        </span>-->
+                        {{errorMsg}}
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="confirmemail"> Confirmer votre Email :</label>
+                    <input type="email" class="form-control" placeholder="Confirmer l'email" id="confirmemail"
+                        formControlName="confirmEmail"
+                        [ngClass]="{'is-invalid': 
+                        (registreFormReactif.get('confirmEmail')?.touched ||  
+                        registreFormReactif.get('confirmEmail')?.dirty) && !registreFormReactif.get('confirmEmail')?.valid}">
+                    <div class="invalid-feedback">
+                        <span *ngIf="registreFormReactif.get('confirmEmail')?.errors?.['required']">
+                            merci d'entrez votre Email
+                        </span>
+                        <span *ngIf="registreFormReactif.get('confirmEmail')?.errors?.['mustMatch']">
+                            L'Email ne correspond pas
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="phoneId">Téléphone</label>
+                    <input type="tel" class="form-control" placeholder="Numero de Tel" formControlName="phone"
+                        [ngClass]="{'is-invalid': !registreFormReactif.get('phone')?.valid}">
+                    <div class="invalid-feedback">
+                        <span *ngIf="registreFormReactif.get('phone')?.errors?.['required']">
+                            Entrez votre Numero de téléphone
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label> Recevoir les notificatons</label>
+                    <div class="col-md-8">
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" value="email" class="form-check-input"
+                                    formControlName="notification">
+                                E-Mail
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" value="text" class="form-check-input"
+                                    formControlName="notification">
+                                SMS
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label for="Evaluation">Note :</label>
+                    <input type="number" class="form-control" placeholder="Note" id="Evaluation"
+                        formControlName="rating" [ngClass]="{'is-invalid': (registreFormReactif.get('rating')?.touched ||  
+                        registreFormReactif.get('rating')?.dirty) && !registreFormReactif.get('rating')?.valid}">
+                    <div class="invalid-feedback">
+                        <span *ngIf="registreFormReactif.get('rating')?.errors?.['rangeError']">
+                            Notez notre service client sur une échelle de 1 à 5
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <div class="form-check mt-4 pt-3">
+
+                        <label for="sendCatalogId" class="form-check-label">
+                            <input type="checkbox" class="form-check-input" formControlName="sendCatalog">
+                            oui je souhaite recevoir la pub
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div *ngIf="registreFormReactif.get('sendCatalog')?.value">
+                <div class="form-group row mb-2">
+                    <label class="col-md-2 col-form-label pt-0">Votre Adresse</label>
+                    <div class="col-md-8">
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" formControlName="addressType" value="home">
+                                Domicile
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" formControlName="addressType" value="work">
+                                Travail
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" formControlName="addressType" value="other">
+                                Autre
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row mb-3">
+                    <div class="col-md-12">
+                        <label for="">Adresse 1:</label>
+                        <input type="text" class="form-control" formControlName="street1">
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="col-md-12">
+                        <label for="">Adresse 2:</label>
+                        <input type="text" class="form-control" formControlName="street2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="">Ville :</label>
+                        <input type="text" class="form-control" formControlName="city">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="">Departement :</label>
+                        <select class="form-control" formControlName="state">
+                            <option value=" ">Selectionner un departement</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Code postal :</label>
+                        <input type="number" class="form-control" formControlName="zip">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-end">
+                <button class="btn btn-outline-info" type="button" (click)="fillFormData()">remplir les champs par
+                    defaut</button>
+
+                <button class="btn btn-info  text-white" type="submit">Sauvegarder</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr>
+<p>Dirty: {{registreFormReactif.dirty}}</p>
+<p>pristine: {{registreFormReactif.pristine}}</p>
+<p>valid: {{registreFormReactif.valid}}</p>
+<p>invalid: {{registreFormReactif.invalid}}</p>
+<p>value :</p>
+<pre>value: {{registreFormReactif.value | json}}</pre>
